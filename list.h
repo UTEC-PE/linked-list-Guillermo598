@@ -57,18 +57,59 @@ class List {
             delete temp;
         };
         void pop_back(){
-            Node<T>* temp = tail;
-            //
+            Iterator = head;
+            while (Iterator -> next -> next != nullptr)
+                Iterator = Iterator -> next;
+            tail = Iterator;
             tail -> next = nullptr;
-            delete temp;
         };
-        T get(int position);
-        void concat(List<T> &other);
-        bool empty();
-        int size();
-        void print();
-        void print_reverse();
-        void clear();
+        T get(int position){
+            int i = 0;
+            Iterator = head;
+            while (Iterator != nullptr && i < position){
+                Iterator = Iterator -> next;
+                i++;
+            }
+            T value = Iterator -> data;
+            return value;
+        };
+        void concat(List<T> &other){
+            this -> tail -> next = other -> head;
+            this -> tail = other -> tail;
+        };
+        bool empty(){
+            if (size() == 0)
+                return true;
+            else
+                return false;
+        };
+        int size(){
+            Iterator = head;
+            int size = 0;
+            while (Iterator != nullptr){
+                Iterator = Iterator -> next;
+                size++;
+            }
+            return size;
+        };
+        void print(){
+            Iterator = head;
+            while (Iterator != nullptr){
+                cout << Iterator -> data << endl;
+                Iterator = Iterator -> next;
+            }
+        };
+        void print_reverse(){
+
+        };
+        void clear(){
+            Iterator = head;
+            while (Iterator != nullptr){
+                Node<T>* temp = Iterator;
+                Iterator = Iterator -> next;
+                delete temp;
+            }
+        };
         Iterator<T> begin();
         Iterator<T> end();
 
