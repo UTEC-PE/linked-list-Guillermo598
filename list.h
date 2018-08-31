@@ -17,13 +17,13 @@ class List {
         void print_reverse(Node<T>* head);
 
     public:
-        List();
+        List(); // No se inicializó
 
         T front(){
-            return head -> data;
+            return head -> data; // Falta controlar caso de lista vacía
         };
         T back(){
-            return tail -> data;
+            return tail -> data; // Igual que el anterior
         };
         void push_front(T value){
             Node<T>* temp = new Node<T>;
@@ -100,10 +100,10 @@ class List {
             }
         };
         void print_reverse(){
-
+            // No se implementó
         };
         void clear(){
-            Iterator = head;
+            Iterator = head; // Qué es iterador?
             while (Iterator != nullptr){
                 Node<T>* temp = Iterator;
                 Iterator = Iterator -> next;
@@ -113,6 +113,6 @@ class List {
         Iterator<T> begin();
         Iterator<T> end();
 
-        ~List();
+        ~List(); // No se implementó
 };
 #endif
