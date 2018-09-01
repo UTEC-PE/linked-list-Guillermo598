@@ -123,6 +123,7 @@ public:
     ~List(){
         head -> killSelf();
     };
+
 };
 #endif
 

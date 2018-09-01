@@ -11,6 +11,7 @@ struct Node {
             next -> killSelf();
         delete this;
     };
+
 };
 
 #endif
