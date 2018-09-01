@@ -9,110 +9,121 @@ using namespace std;
 
 template <typename T>
 class List {
-    private:
-        Node<T>* head;
-        Node<T>* tail;
-        int nodes;
+private:
+    Node<T>* head;
+    Node<T>* tail;
+    int nodes;
 
-        void print_reverse(Node<T>* head);
+    void print_reverse(Node<T>* head);
 
-    public:
-        List(); // No se inicializó
+public:
+    List(){
+        head = tail = nullptr;
+        nodes = 0;
+    };
 
-        T front(){
-            return head -> data; // Falta controlar caso de lista vacía
-        };
-        T back(){
-            return tail -> data; // Igual que el anterior
-        };
-        void push_front(T value){
-            Node<T>* temp = new Node<T>;
-            temp -> data = value;
-            if (empty()){
-                temp -> next = nullptr;
-                tail = temp;
-                head = temp;
-            }
-            else{
-                head -> next = head;
-                head = temp;
-            }
-        };
-        void push_back(T value){
-            Node<T>* temp = new Node<T>;
-            temp -> data = value;
-            temp -> next = nullptr;
-            if (empty()){
-                tail = temp;
-                head = temp;
-            }
-            else{
-                tail -> next = temp;
-                tail = temp;
-            }
-        };
-        void pop_front(){
-            Node<T>* temp = head;
-            head -> next = head;
+    T front(){
+        if (head == nullptr)
+            cout << "ListError" << endl;
+        else
+            return head -> data;
+    };
+    T back(){
+        if (head == nullptr)
+            cout << "ListError" << endl;
+        else
+            return tail -> data;
+    };
+    void push_front(T value){
+        Node<T>* temp = new Node<T>;
+        temp -> data = value;
+        temp -> next = head;
+        if (head == nullptr)
+            head = tail = temp;
+        else
+            head = temp;
+        nodes++;
+    };
+    void push_back(T value){
+        Node<T>* temp = new Node<T>;
+        temp -> data = value;
+        temp -> next = nullptr;
+        if (head == nullptr)
+            head = tail = temp;
+        else {
+            tail->next = temp;
+            tail = temp;
+        }
+        nodes++;
+    };
+    void pop_front(){
+        if (head == nullptr)
+            cout << "ListError" << endl;
+        else {
+            Node<T> *temp = head;
+            head = head -> next;
             delete temp;
-        };
-        void pop_back(){
-            Iterator = head;
-            while (Iterator -> next -> next != nullptr)
-                Iterator = Iterator -> next;
-            tail = Iterator;
-            tail -> next = nullptr;
-        };
-        T get(int position){
-            int i = 0;
-            Iterator = head;
-            while (Iterator != nullptr && i < position){
-                Iterator = Iterator -> next;
-                i++;
-            }
-            T value = Iterator -> data;
-            return value;
-        };
-        void concat(List<T> &other){
-            this -> tail -> next = other -> head;
-            this -> tail = other -> tail;
-        };
-        bool empty(){
-            if (size() == 0)
-                return true;
-            else
-                return false;
-        };
-        int size(){
-            Iterator = head;
-            int size = 0;
-            while (Iterator != nullptr){
-                Iterator = Iterator -> next;
-                size++;
-            }
-            return size;
-        };
-        void print(){
-            Iterator = head;
-            while (Iterator != nullptr){
-                cout << Iterator -> data << endl;
-                Iterator = Iterator -> next;
-            }
-        };
-        void print_reverse(){
-            // No se implementó
-        };
-        void clear(){
-            Iterator = head; // Qué es iterador?
-            while (Iterator != nullptr){
-                Node<T>* temp = Iterator;
-                Iterator = Iterator -> next;
-                delete temp;
-            }
-        };
-        Iterator<T> begin();
-        Iterator<T> end();
+            nodes--;
+        }
+    };
+    void pop_back(){
+        if (head == nullptr)
+            cout << "ListError" << endl;
+        else {
+            Node<T> *temp = head;
+            while (temp -> next != tail)
+                temp = temp -> next;
+            temp -> next = nullptr;
+            delete tail;
+            tail = temp;
+            nodes--;
+        }
+    };
+    T get(int position){
+        if (position > size()-1 || position < 0)
+            cout << "ListError" << endl;
+        else{
+            Node<T>* temp = head;
+            for (int i = 0; i < position; i++)
+                temp = temp -> next;
+            return temp -> data;
+        }
+    };
+    void concat(List<T> &other){
+        tail -> next = other.head;
+        tail = other.tail;
+        nodes += other.nodes;
+    };
+    bool empty(){
+        return head == nullptr;
+    };
+    int size(){
+        return nodes;
+    };
+    void print(){
+        Node<T>* temp = head;
+        while (temp != nullptr){
+            cout << temp -> data << endl;
+            temp = temp -> next;
+        }
+    };
+    void print_reverse(){
+        for (int i = size() - 1; i >= 0; i--){
+            cout << get(i) << endl;
+        }
+    };
+    void clear(){
+        head -> killSelf();
+        head = tail = nullptr;
+        nodes = 0;
+    };
+    Iterator<T> begin();
+    Iterator<T> end();
 
-        ~List(); // No se implementó
+    ~List(){
+        head -> killSelf();
+    };
+
 };
 #endif
+

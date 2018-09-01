@@ -6,7 +6,12 @@ struct Node {
     T data;
     struct Node* next;
 
-    void killSelf(); // No se implementó
+    void killSelf(){
+        if (next)
+            next -> killSelf();
+        delete this;
+    };
+
 };
 
 #endif
