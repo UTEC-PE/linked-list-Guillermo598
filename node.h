@@ -6,7 +6,11 @@ struct Node {
     T data;
     struct Node* next;
 
-    void killSelf();
+    void killSelf(){
+        if (next)
+            next -> killSelf();
+        delete this;
+    };
 };
 
 #endif
